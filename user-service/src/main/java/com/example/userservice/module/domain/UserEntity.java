@@ -25,9 +25,6 @@ public class UserEntity {
     @Column(nullable = false, length = 50, unique = true)
     private String email;
 
-    @Column(nullable = false, length = 50)
-    private String password;
-
     @Column(nullable = false, unique = true)
     private String name;
 
@@ -37,6 +34,4 @@ public class UserEntity {
     @Column(nullable = false,unique = true)
     private String encryptedPassword;
 
-    @Column(nullable = false)
-    private Date createDate;
 }

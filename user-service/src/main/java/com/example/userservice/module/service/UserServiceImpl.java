@@ -24,12 +24,22 @@ public class UserServiceImpl implements UserService{
     public UserDto createUser(UserDto userDto) {
         userDto.setUserId(UUID.randomUUID().toString());
 
-        ModelMapper mapper = new ModelMapper();
+        final ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        UserEntity userEntity = mapper.map(userDto, UserEntity.class);
+        final UserEntity userEntity = mapper.map(userDto, UserEntity.class);
         userEntity.setEncryptedPassword("encrypted_password");
         userRepository.save(userEntity);
 
-        return null;
+        return createUserDto(userEntity);
+    }
+
+    private UserDto createUserDto(UserEntity userEntity) {
+        final UserDto serviceResponseDto = new UserDto();
+        serviceResponseDto.setName(userEntity.getName());
+        serviceResponseDto.setEmail(userEntity.getEmail());
+        serviceResponseDto.setUserId(userEntity.getUserId());
+        serviceResponseDto.setPassword("password");
+        serviceResponseDto.setEncryptedPassword(userEntity.getEncryptedPassword());
+        return serviceResponseDto;
     }
 }
